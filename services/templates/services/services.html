@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">
+        {% if category %}
+        {{ category.name }} Services
+        {% else %}
+        All Services
+        {% endif %}
+    </h1>
+    
+    <div class="row">
+        {% for service in services %}
+        <div class="col-md-6 mb-4">
+            <div class="card service-card h-100">
+                <div class="card-body">
+                    <h3>{{ service.name }}</h3>
+                    <p class="text-muted">{{ service.category.name }}</p>
+                    <p>{{ service.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h5">${{ service.price }}</span>
+                        <a href="{% url 'services:book_service' service.id %}" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

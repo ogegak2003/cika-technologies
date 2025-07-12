@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Book {{ service.name }}</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.booking_date.id_for_label }}" class="form-label">
+                                <strong>Date & Time</strong>
+                            </label>
+                            {{ form.booking_date }}
+                            {% if form.booking_date.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.booking_date.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Select a future date and time for your booking
+                            </small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.notes.id_for_label }}" class="form-label">
+                                <strong>Additional Notes</strong>
+                            </label>
+                            {{ form.notes }}
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'services:service_list' %}" class="btn btn-outline-secondary me-md-2">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                Confirm Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-0"><strong>Service:</strong> {{ service.name }}</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <p class="mb-0"><strong>Duration:</strong> {{ service.get_duration_display }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize datetime picker with min date
+    const now = new Date();
+    const datetimeInput = document.querySelector('input[type="datetime-local"]');
+    datetimeInput.min = now.toISOString().slice(0, 16);
+});
+</script>
+{% endblock %}

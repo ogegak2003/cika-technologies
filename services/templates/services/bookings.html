@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">My Bookings</h1>
+    
+    {% if bookings %}
+    <div class="list-group">
+        {% for booking in bookings %}
+        <div class="list-group-item booking-card mb-3">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5>{{ booking.service.name }}</h5>
+                    <p class="mb-1">Date: {{ booking.booking_date }}</p>
+                    <p class="mb-1">Status: <span class="booking-status {{ booking.status }}">{{ booking.get_status_display }}</span></p>
+                    {% if booking.notes %}<p class="mb-1">Notes: {{ booking.notes }}</p>{% endif %}
+                </div>
+                <div>
+                    {% if booking.admin_response %}
+                    <div class="alert alert-info">
+                        <strong>Admin Response:</strong>
+                        <p>{{ booking.admin_response }}</p>
+                        <small>{{ booking.response_date }}</small>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        You have no bookings yet.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

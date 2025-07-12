@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4">Welcome to CiKA Technologies</h1>
+        <p class="lead">Innovative solutions for your business needs</p>
+        <a href="{% url 'services:service_list' %}" class="btn btn-primary btn-lg mt-3">Explore Our Services</a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Our Service Categories</h2>
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-md-4 mb-4">
+            <div class="card service-card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-{{ category.icon }} service-icon"></i>
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description }}</p>
+                    <a href="{% url 'services:service_list_by_category' category.id %}" class="btn btn-outline-primary">View Services</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

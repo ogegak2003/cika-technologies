@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="form-container">
+    <div class="form-header">
+      <h2>Your Profile</h2>
+      <p class="text-muted">Update your account information</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+      {% csrf_token %}
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="id_email" class="form-label">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+              <div class="errorlist">{{ form.email.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="id_phone_number" class="form-label">Phone Number</label>
+            {{ form.phone_number }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="id_company_name" class="form-label">Company Name</label>
+        {{ form.company_name }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_address" class="form-label">Address</label>
+        {{ form.address }}
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block mt-4">Update Profile</button>
+
+      <div class="form-footer mt-4">
+        <a href="{% url 'users:password_change' %}" class="btn btn-outline-secondary">Change Password</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "admin/base_site.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="module">
+    <h1>Service Booking Dashboard</h1>
+    
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <h2>Active Services</h2>
+            <div class="stat">{{ active_services|intcomma }}</div>
+        </div>
+        
+        <div class="dashboard-card">
+            <h2>Total Bookings</h2>
+            <div class="stat">{{ total_bookings|intcomma }}</div>
+        </div>
+        
+        <div class="dashboard-card">
+            <h2>Pending Bookings</h2>
+            <div class="stat">{{ pending_bookings|intcomma }}</div>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <h2>Recent Bookings</h2>
+        <table class="recent-bookings">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in recent_bookings %}
+                <tr>
+                    <td>{{ booking.user.username }}</td>
+                    <td>{{ booking.service.name }}</td>
+                    <td>{{ booking.booking_date|date:"M d, Y H:i" }}</td>
+                    <td>
+                        <span class="status-badge {{ booking.status }}">
+                            {{ booking.get_status_display }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="dashboard-section">
+        <h2>Most Popular Services</h2>
+        <ol class="popular-services">
+            {% for service in popular_services %}
+            <li>
+                {{ service.name }} 
+                <span class="booking-count">{{ service.booking_count }} bookings</span>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+
+<style>
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.dashboard-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.dashboard-card h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.dashboard-card .stat {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #417690;
+}
+
+.dashboard-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.recent-bookings {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recent-bookings th, .recent-bookings td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.status-badge.pending { background: #fff3cd; color: #856404; }
+.status-badge.confirmed { background: #d4edda; color: #155724; }
+.status-badge.completed { background: #cce5ff; color: #004085; }
+.status-badge.cancelled { background: #f8d7da; color: #721c24; }
+
+.popular-services {
+    list-style-type: none;
+    padding: 0;
+}
+
+.popular-services li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popular-services .booking-count {
+    font-weight: bold;
+    color: #417690;
+}
+</style>
+{% endblock %}
