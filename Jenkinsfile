@@ -9,7 +9,7 @@ pipeline {
     
     environment {
         // Customizable variables
-        DOCKER_IMAGE = 'ogegak2003/myapp'
+        DOCKER_IMAGE = 'ogegak2003/cika-technology'
         PROD_PORT = '8000'
         
         // Fixed variables (don't change these)
@@ -110,7 +110,7 @@ pipeline {
                         sh """
                             kubectl set image deployment/myapp myapp=${DOCKER_IMAGE}:${GIT_COMMIT}
                             kubectl scale deployment/myapp --replicas=${REPLICAS}
-                            kubectl rollout status deployment/myapp
+                            kubectl rollout status deployment/cika-technologies
                         """
                     }
                 }
